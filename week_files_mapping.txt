@@ -1,0 +1,21 @@
+Week-to-Filename Mapping for Provided Files:
+
+Week 1 - Java-week-1.docx
+Week 2 - Java-week-2.docx
+Week 3 - Java-week-3.docx
+Week 4 - Java week-4.docx
+Week 5 - Java week-5.docx
+Week 6 - JAVA-WEEK-6.docx
+Week 7 - Java-week-7c.docx  (assumed Week 7)
+Week 8 - JAVA-WEEK-8.docx
+Week 9 - Java Week - 9.pdf
+Week 10 - JAVA-WEEK-10.docx
+Week 11 - JAVA-WEEK-11.docx
+Week 12 - JAVA-WEEK-12.docx
+
+Note:
+- All files will be placed in the docs/ folder in the final website structure.
+- Download links for each week will point to these respective filenames unless the user wants renamed files.
+- Once content from all files is extracted, dynamic content display will be built accordingly.
+
+Please confirm this mapping and approach before I proceed with website creation steps.

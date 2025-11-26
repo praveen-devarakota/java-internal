@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Java Lab (23IT5351) – Praveen Devarakota</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #8b7355;
+            min-height: 100vh;
+            padding: 40px 20px;
+            background-image: 
+                repeating-linear-gradient(
+                    transparent,
+                    transparent 31px,
+                    #d4a574 31px,
+                    #d4a574 32px
+                );
+        }
+
+        .notebook-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fffef7;
+            box-shadow: 
+                0 0 0 1px #d4a574,
+                0 10px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            padding-left: 80px;
+        }
+
+        .notebook-container::before {
+            content: '';
+            position: absolute;
+            left: 60px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e8b4b8;
+        }
+
+        .spiral-binding {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 60px;
+            background: #8b7355;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            gap: 30px;
+        }
+
+        .spiral-ring {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #5a4a3a;
+            border-radius: 50%;
+            background: transparent;
+        }
+
+        header {
+            padding: 60px 40px 40px;
+            border-bottom: 2px solid #e8b4b8;
+            background: linear-gradient(to bottom, #fffef7 0%, #faf8f0 100%);
+            position: relative;
+        }
+
+        header h1 {
+            color: #2c2416;
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-align: left;
+            font-family: 'Georgia', serif;
+            text-decoration: underline;
+            text-decoration-color: #e8b4b8;
+            text-underline-offset: 8px;
+        }
+
+        header h2 {
+            color: #5a4a3a;
+            font-size: 1.1em;
+            font-weight: 400;
+            text-align: left;
+            font-style: italic;
+        }
+
+        .content-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 0;
+            min-height: 700px;
+        }
+
+        .weeks-container {
+            background: #faf8f0;
+            padding: 30px 20px;
+            border-right: 2px dashed #d4a574;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .weeks-container::before {
+            content: 'TABLE OF CONTENTS';
+            display: block;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: #8b7355;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #d4a574;
+            padding-bottom: 8px;
+        }
+
+        .week-box {
+            background: transparent;
+            padding: 12px 15px;
+            border-left: 4px solid transparent;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #5a4a3a;
+            font-size: 0.95em;
+            position: relative;
+        }
+
+        .week-box:hover {
+            border-left-color: #e8b4b8;
+            background: rgba(232, 180, 184, 0.1);
+            padding-left: 20px;
+        }
+
+        .week-box::before {
+            content: '◆';
+            margin-right: 10px;
+            color: #d4a574;
+            font-size: 0.7em;
+        }
+
+        #content-viewer {
+            background: #fffef7;
+            padding: 40px;
+        }
+
+        #week-title {
+            color: #2c2416;
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            text-align: left;
+            font-weight: 700;
+            font-family: 'Georgia', serif;
+            border-bottom: 2px solid #e8b4b8;
+            padding-bottom: 10px;
+        }
+
+        #frame {
+            width: 100%;
+            height: 500px;
+            border: 2px solid #d4a574;
+            background: white;
+            display: block;
+            margin-bottom: 20px;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: #8b7355;
+            color: #fffef7;
+            padding: 12px 28px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid #5a4a3a;
+            font-size: 0.9em;
+            box-shadow: 2px 2px 0 #5a4a3a;
+        }
+
+        .download-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 0 0 0 #5a4a3a;
+            background: #5a4a3a;
+        }
+
+        @media (max-width: 968px) {
+            .content-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .weeks-container {
+                border-right: none;
+                border-bottom: 2px dashed #d4a574;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .week-box {
+                flex: 0 0 calc(25% - 10px);
+                text-align: center;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+
+            .week-box:hover {
+                border-bottom-color: #e8b4b8;
+                padding-left: 15px;
+            }
+
+            .notebook-container {
+                padding-left: 60px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .notebook-container {
+                padding-left: 40px;
+            }
+
+            .spiral-binding {
+                width: 40px;
+            }
+
+            .spiral-ring {
+                width: 20px;
+                height: 20px;
+            }
+
+            .notebook-container::before {
+                left: 35px;
+            }
+
+            header {
+                padding: 40px 20px 30px;
+            }
+
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            header h2 {
+                font-size: 0.95em;
+            }
+
+            .weeks-container {
+                padding: 20px 15px;
+            }
+
+            .week-box {
+                flex: 0 0 calc(50% - 10px);
+                font-size: 0.85em;
+            }
+
+            #content-viewer {
+                padding: 20px;
+            }
+
+            #week-title {
+                font-size: 1.3em;
+            }
+
+            #frame {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="notebook-container">
+    <div class="spiral-binding">
+        <div class="spiral-ring"></div>
+        <div class="spiral-ring"></div>
+        <div class="spiral-ring"></div>
+        <div class="spiral-ring"></div>
+        <div class="spiral-ring"></div>
+        <div class="spiral-ring"></div>
+        <div class="spiral-ring"></div>
+        <div class="spiral-ring"></div>
+        <div class="spiral-ring"></div>
+        <div class="spiral-ring"></div>
+        <div class="spiral-ring"></div>
+        <div class="spiral-ring"></div>
+    </div>
+
+    <header>
+        <h1>Advanced Java Lab (23IT5351)</h1>
+        <h2>Praveen Devarakota – Roll No: 238W1A1285</h2>
+    </header>
+
+    <div class="content-layout">
+        <div class="weeks-container">
+            <script>
+                for (let i = 1; i <= 12; i++) {
+                    document.write(`<div class='week-box' onclick='loadWeek(${i})'>Week ${i}</div>`);
+                }
+            </script>
+        </div>
+
+        <div id="content-viewer">
+            <h2 id="week-title">Click a Week</h2>
+            <iframe id="frame"></iframe>
+            <a id="downloadLink" class="download-btn" download>Download Original File</a>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
