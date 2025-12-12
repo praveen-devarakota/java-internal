@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Advanced Java Lab (23IT5351) – Praveen Devarakota</title>
     <style>
         * {
@@ -16,7 +16,7 @@
             background: #8b7355;
             min-height: 100vh;
             padding: 40px 20px;
-            background-image: 
+            background-image:
                 repeating-linear-gradient(
                     transparent,
                     transparent 31px,
@@ -29,13 +29,43 @@
             max-width: 1200px;
             margin: 0 auto;
             background: #fffef7;
-            box-shadow: 
+            box-shadow:
                 0 0 0 1px #d4a574,
                 0 10px 40px rgba(0, 0, 0, 0.3);
-            position: relative;
+            position: relative; /* keeps the absolute-positioned photo inside this container */
             padding-left: 80px;
         }
 
+        /* ========== PASSPORT PHOTO STYLES ========== */
+        /* Uses real-world passport size: 35mm x 45mm (3.5cm x 4.5cm).
+           object-fit: cover ensures the image fills the box while preserving aspect ratio.
+           Positioned in top-right corner of the notebook container so layout is not disturbed. */
+        .passport-photo {
+            position: absolute;
+            top: 20px;            /* distance from top of notebook container */
+            right: 20px;          /* distance from right edge of notebook container */
+            width: 3.5cm;         /* 35 mm typical passport width */
+            height: 3.7cm;        /* 45 mm typical passport height */
+            border: 3px solid #e8b4b8;
+            border-radius: 4px;   /* optional small rounding */
+            object-fit: cover;    /* crops/centers image to fill frame without distortion */
+            box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+            background: #fff;     /* fallback while image loads */
+            display: block;
+            z-index: 30;          /* sits on top of content */
+        }
+
+        /* Slightly smaller on narrow screens to avoid overlap */
+        @media (max-width: 768px) {
+            .passport-photo {
+                width: 2.6cm;
+                height: 3.4cm;
+                top: 14px;
+                right: 14px;
+            }
+        }
+
+        /* rest of your original styles (unchanged) */
         .notebook-container::before {
             content: '';
             position: absolute;
@@ -304,6 +334,14 @@
         <h1>Advanced Java Lab (23IT5351)</h1>
         <h2>Praveen Devarakota – Roll No: 238W1A1285</h2>
     </header>
+
+    <!-- ===== Passport photo (top-right) — replace src with your file path ===== -->
+    <img
+        class="passport-photo"
+        src="docs/ProfilePic.jpg"
+        alt="Passport photo of student"
+        aria-label="Student passport photograph"
+    />
 
     <div class="content-layout">
         <div class="weeks-container">
